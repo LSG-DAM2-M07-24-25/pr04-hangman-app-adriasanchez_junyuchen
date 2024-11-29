@@ -5,5 +5,6 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
 
     // Navigation
+    alias(libs.plugins.jetbrainsKotlinSerialization) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
 }
