@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun GameScreen(word: String, navigateToBack: () -> Unit, navigateToFinal: (Boolean) -> Unit) {
+fun GameScreen(word: String, navigateToBack: () -> Unit, navigateToFinal: (Boolean, Int) -> Unit) {
     val new_word by remember { mutableStateOf(emptyWord(word)) }
 
     Column (modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -30,11 +30,15 @@ fun GameScreen(word: String, navigateToBack: () -> Unit, navigateToFinal: (Boole
         Spacer(modifier = Modifier.weight(1f))
         Row (horizontalArrangement = Arrangement.SpaceEvenly) {
             Spacer(modifier = Modifier.weight(1f))
-            Button(onClick = { navigateToFinal(false) }) {
+            // Al llamar a la funcion navigateToFinal, se navega a la pantalla final
+            // con el parametro win = false y attempts = 5
+            Button(onClick = { navigateToFinal(false, 5) }) {
                 Text(text = "Lose")
             }
             Spacer(modifier = Modifier.weight(1f))
-            Button(onClick = { navigateToFinal(true) }) {
+            // Al llamar a la funcion navigateToFinal, se navega a la pantalla final
+            // con el parametro win = true y attempts = 2
+            Button(onClick = { navigateToFinal(true, 2) }) {
                 Text(text = "Win")
             }
             Spacer(modifier = Modifier.weight(1f))

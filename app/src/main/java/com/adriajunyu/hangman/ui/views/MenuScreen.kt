@@ -16,6 +16,8 @@ fun MenuScreen(navigateToGame: (String) -> Unit) {
         Spacer(modifier = Modifier.weight(1f))
         Text(text = "Hangman", fontSize = 25.sp)
         Spacer(modifier = Modifier.weight(1f))
+        // Al llamar a la funcion navigateToGame, se navega a la pantalla de juego,
+        // con la palabra "hello" como parametro
         Button(onClick = { navigateToGame("hello") }) {
             Text(text = "Start Game")
         }
