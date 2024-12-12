@@ -32,22 +32,32 @@ import com.adriajunyu.hangman.ui.models.Difficulty
 import com.adriajunyu.hangman.ui.viewmodels.GameViewModel
 
 @Composable
-fun MenuScreen(navigateToGame: (String) -> Unit) {
+fun MenuScreen(navigateToGame: (String, Difficulty) -> Unit) {
     var selectedDifficulty by remember { mutableStateOf(Difficulty.EASY) }
     var expanded by remember { mutableStateOf(false) }
-    Column (modifier = Modifier
-        .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = stringResource(id = R.string.app_name), fontSize = 25.sp)
+
+        Text(text = "Hangman", fontSize = 30.sp)
+        Spacer(modifier = Modifier.height(16.dp))
+
         Image(
             painter = painterResource(id = R.drawable.hangman_7),
             contentDescription = stringResource(id = R.string.app_name),
             modifier = Modifier.size(250.dp)
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = stringResource(id = R.string.select_difficulty, selectedDifficulty.name),
+                text = "Difficulty: ${selectedDifficulty.name}",
                 fontSize = 18.sp,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -59,7 +69,7 @@ fun MenuScreen(navigateToGame: (String) -> Unit) {
                 onDismissRequest = { expanded = false },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Difficulty.entries.forEach { difficulty ->
+                Difficulty.values().forEach { difficulty ->
                     DropdownMenuItem(
                         text = { Text(text = difficulty.name) },
                         onClick = {
@@ -72,11 +82,14 @@ fun MenuScreen(navigateToGame: (String) -> Unit) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        // Al llamar a la funcion navigateToGame, se navega a la pantalla de juego,
-        // con la palabra "hello" como parametro
-        Button(onClick = { navigateToGame(GameViewModel().getRandomWord()) }) {
-            Text(text = stringResource(id = R.string.start_game))
+
+        Button(
+            onClick = { navigateToGame(GameViewModel().getRandomWord(), selectedDifficulty) },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Start Game")
         }
+
         Spacer(modifier = Modifier.weight(1f))
     }
 }

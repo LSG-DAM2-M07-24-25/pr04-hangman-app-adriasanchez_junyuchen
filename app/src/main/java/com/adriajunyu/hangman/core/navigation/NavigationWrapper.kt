@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
+import com.adriajunyu.hangman.ui.models.Difficulty
 import com.adriajunyu.hangman.ui.viewmodels.GameViewModel
 import com.adriajunyu.hangman.ui.views.FinalScreen
 import com.adriajunyu.hangman.ui.views.GameScreen
@@ -14,52 +14,59 @@ import com.adriajunyu.hangman.ui.views.SplashScreen
 @Composable
 fun NavigationWrapper() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Splash) {
-        // Navegacion a la pantalla de inicio
-        composable<Splash> {
+    NavHost(navController = navController, startDestination = "splash") {
+        // Navigate to Splash Screen
+        composable("splash") {
             SplashScreen {
                 navController.popBackStack()
-                navController.navigate(Menu)
+                navController.navigate("menu")
             }
         }
 
-        // Navegacion a la pantalla de menu
-        composable<Menu> {
-            MenuScreen {
-                    word -> navController.navigate(Game(word = word))
+        // Navigate to Menu Screen
+        composable("menu") {
+            MenuScreen { word, difficulty ->
+                navController.navigate("game/$word/${difficulty.name}")
             }
         }
 
-        // Navegacion a la pantalla de juego
-        composable<Game> { backStackEntry ->
-            val game = backStackEntry.toRoute<Game>()
-            GameScreen (
+        // Navigate to Game Screen
+        composable("game/{word}/{difficulty}") { backStackEntry ->
+            val word = backStackEntry.arguments?.getString("word") ?: ""
+            val difficulty = Difficulty.valueOf(
+                backStackEntry.arguments?.getString("difficulty") ?: Difficulty.EASY.name
+            )
+            GameScreen(
                 navigateToBack = {
-                    navController.navigate(Menu){
-                        popUpTo(Menu) { inclusive = true }
+                    navController.navigate("menu") {
+                        popUpTo("menu") { inclusive = true }
                     }
                 },
                 navigateToFinal = { win: Boolean, attempts: Int ->
-                    navController.navigate(Final(win = win, attempts = attempts)) {
-                        popUpTo<Menu> { inclusive = false }
+                    navController.navigate("final/$win/$attempts") {
+                        popUpTo("menu") { inclusive = false }
                     }
                 },
-                viewModel = GameViewModel(game.word)
+                viewModel = GameViewModel(word),
+                difficulty = difficulty
             )
         }
 
-        // Navegacion a la pantalla final
-        composable<Final> { backStackEntry ->
-            val final = backStackEntry.toRoute<Final>()
-            FinalScreen (win = final.win, attempts = final.attempts,
+        // Navigate to Final Screen
+        composable("final/{win}/{attempts}") { backStackEntry ->
+            val win = backStackEntry.arguments?.getString("win")?.toBoolean() ?: false
+            val attempts = backStackEntry.arguments?.getString("attempts")?.toInt() ?: 0
+            FinalScreen(
+                win = win,
+                attempts = attempts,
                 navigateToMenu = {
-                    navController.navigate(Menu){
-                        popUpTo(Menu) { inclusive = true }
+                    navController.navigate("menu") {
+                        popUpTo("menu") { inclusive = true }
                     }
                 },
                 navigateToGame = { word ->
-                    navController.navigate(Game(word = word)) {
-                        popUpTo(Menu) { inclusive = false }
+                    navController.navigate("game/$word/${Difficulty.EASY.name}") {
+                        popUpTo("menu") { inclusive = false }
                     }
                 }
             )

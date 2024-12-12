@@ -20,14 +20,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.adriajunyu.hangman.R
+import com.adriajunyu.hangman.ui.models.Difficulty
 import com.adriajunyu.hangman.ui.viewmodels.GameViewModel
 
 @Composable
 fun GameScreen(
     navigateToBack: () -> Unit,
     navigateToFinal: (Boolean, Int) -> Unit,
-    viewModel: GameViewModel
+    viewModel: GameViewModel,
+    difficulty: Difficulty
 ) {
+    val maxAttempts = when (difficulty) {
+        Difficulty.EASY -> 10
+        Difficulty.MEDIUM -> 7
+        Difficulty.HARD -> 5
+    }
     val hiddenWord by viewModel.hidenWord.observeAsState("")
     val win by viewModel.win.observeAsState(false)
     val lose by viewModel.lose.observeAsState(false)
@@ -89,9 +96,9 @@ fun GameScreen(
         }
     }
 
-    if ((win || lose || attempts >= 7) && !navigated.value) {
+    if ((win || lose || ((viewModel.attempts.value ?: 0) >= maxAttempts)) && !navigated.value) {
         navigated.value = true
-        navigateToFinal(win, attempts)
+        navigateToFinal(win, viewModel.attempts.value ?: 0)
     }
 }
 
