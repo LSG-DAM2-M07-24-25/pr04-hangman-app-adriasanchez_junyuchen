@@ -10,11 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import com.adriajunyu.hangman.R
 
 @Composable
 fun FinalScreen(win: Boolean, attempts: Int, navigateToGame: (String) -> Unit, navigateToMenu: () -> Unit) {
-    val message = if (win) "You win!" else "You lose!"
+    val message = if (win) stringResource(R.string.you_win) else stringResource(R.string.you_lose)
     Column (modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.weight(1f))
         Text(text = message, fontSize = 25.sp)
@@ -25,13 +27,13 @@ fun FinalScreen(win: Boolean, attempts: Int, navigateToGame: (String) -> Unit, n
             Spacer(modifier = Modifier.weight(1f))
             // Al llamar a la funcion navigateToMenu, se navega a la pantalla de menu
             Button(onClick = { navigateToMenu() }) {
-                Text(text = "Exit")
+                Text(text = stringResource(id = R.string.exit))
             }
             Spacer(modifier = Modifier.weight(1f))
             // Al llamar a la funcion navigateToGame, se navega a la pantalla de juego,
             // con la palabra "bye" como parametro
             Button(onClick = { navigateToGame("bye") }) {
-                Text(text = "Restart")
+                Text(text = stringResource(id = R.string.restart))
             }
             Spacer(modifier = Modifier.weight(1f))
         }
