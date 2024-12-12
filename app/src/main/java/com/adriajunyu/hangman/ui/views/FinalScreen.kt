@@ -20,7 +20,7 @@ fun FinalScreen(win: Boolean, attempts: Int, navigateToGame: (String) -> Unit, n
     Column (modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.weight(1f))
         Text(text = message, fontSize = 25.sp)
-        Text(text = "Attempts: $attempts", fontSize = 25.sp)
+        Text(text = stringResource(id = R.string.attempts, attempts), fontSize = 25.sp)
         Spacer(modifier = Modifier.weight(1f))
         Spacer(modifier = Modifier.weight(1f))
         Row (horizontalArrangement = Arrangement.SpaceEvenly) {

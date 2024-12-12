@@ -23,7 +23,7 @@ fun GameScreen(word: String, navigateToBack: () -> Unit, navigateToFinal: (Boole
 
     Column (modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = "Game word:", fontSize = 25.sp)
+        Text(text = stringResource(id = R.string.game_word), fontSize = 25.sp)
         Text(text = new_word, fontSize = 25.sp)
         Spacer(modifier = Modifier.weight(1f))
         Button(onClick = { navigateToBack() }) {
