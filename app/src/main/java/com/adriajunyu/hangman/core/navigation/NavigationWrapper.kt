@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.adriajunyu.hangman.ui.viewmodels.GameViewModel
 import com.adriajunyu.hangman.ui.views.FinalScreen
 import com.adriajunyu.hangman.ui.views.GameScreen
 import com.adriajunyu.hangman.ui.views.MenuScreen
@@ -32,7 +33,8 @@ fun NavigationWrapper() {
         // Navegacion a la pantalla de juego
         composable<Game> { backStackEntry ->
             val game = backStackEntry.toRoute<Game>()
-            GameScreen (word = game.word,
+            GameScreen (
+                new_word = game.word,
                 navigateToBack = {
                     navController.navigate(Menu){
                         popUpTo(Menu) { inclusive = true }
@@ -42,7 +44,8 @@ fun NavigationWrapper() {
                     navController.navigate(Final(win = win, attempts = attempts)) {
                         popUpTo<Menu> { inclusive = false }
                     }
-                }
+                },
+                viewModel = GameViewModel()
             )
         }
 

@@ -68,4 +68,7 @@ dependencies {
     // Datastore
     implementation(libs.datastore.preferences)
     implementation(libs.androidx.runtime)
+
+    // ViewModel
+    implementation(libs.androidx.runtime.livedata)
 }
