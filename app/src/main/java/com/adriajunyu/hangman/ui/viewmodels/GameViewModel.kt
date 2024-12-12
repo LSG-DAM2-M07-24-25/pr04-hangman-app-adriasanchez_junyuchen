@@ -45,7 +45,7 @@ class GameViewModel(new_word: String? = null, difficulty: Difficulty? = Difficul
     private val _attempts = MutableLiveData<Int>()
     val attempts : LiveData<Int> = _attempts
 
-    private val maximumAttempts = 5
+    private val maximumAttempts = 7
 
     private val noLetter = '_'
 

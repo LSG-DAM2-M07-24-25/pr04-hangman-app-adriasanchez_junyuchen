@@ -26,7 +26,7 @@ fun NavigationWrapper() {
         // Navegacion a la pantalla de menu
         composable<Menu> {
             MenuScreen {
-                word -> navController.navigate(Game(word = word))
+                    word -> navController.navigate(Game(word = word))
             }
         }
 
