@@ -20,10 +20,8 @@ import com.adriajunyu.hangman.R
 import com.adriajunyu.hangman.ui.viewmodels.GameViewModel
 
 @Composable
-fun GameScreen(new_word: String, navigateToBack: () -> Unit, navigateToFinal: (Boolean, Int) -> Unit, viewModel: GameViewModel) {
-    viewModel.setWord(new_word)
-
-    val hidenWord by viewModel.hidenWord.observeAsState(viewModel.emptyWord(new_word))
+fun GameScreen(navigateToBack: () -> Unit, navigateToFinal: (Boolean, Int) -> Unit, viewModel: GameViewModel) {
+    val hidenWord by viewModel.hidenWord.observeAsState("")
 
     Column (modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.weight(1f))
@@ -49,7 +47,7 @@ fun GameScreen(new_word: String, navigateToBack: () -> Unit, navigateToFinal: (B
             }
             Spacer(modifier = Modifier.weight(1f))
             Button( onClick = { viewModel.showLetter('a') } ) {
-                Text(text = "Mostrar texto")
+                Text(text = "Mostrar A")
             }
             Spacer(modifier = Modifier.weight(1f))
         }

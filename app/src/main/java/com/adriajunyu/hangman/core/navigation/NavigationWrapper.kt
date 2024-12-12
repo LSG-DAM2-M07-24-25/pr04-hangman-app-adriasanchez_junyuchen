@@ -34,7 +34,6 @@ fun NavigationWrapper() {
         composable<Game> { backStackEntry ->
             val game = backStackEntry.toRoute<Game>()
             GameScreen (
-                new_word = game.word,
                 navigateToBack = {
                     navController.navigate(Menu){
                         popUpTo(Menu) { inclusive = true }
@@ -45,7 +44,7 @@ fun NavigationWrapper() {
                         popUpTo<Menu> { inclusive = false }
                     }
                 },
-                viewModel = GameViewModel()
+                viewModel = GameViewModel(game.word)
             )
         }
 
