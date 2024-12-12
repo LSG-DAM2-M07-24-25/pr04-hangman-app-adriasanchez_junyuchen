@@ -3,12 +3,32 @@ package com.adriajunyu.hangman.ui.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.adriajunyu.hangman.ui.models.Difficulty
 
-class GameViewModel(new_word: String? = null) : ViewModel() {
-    private val words = listOf("a", "ab", "abc", "abcd", "abcde")
-    val alphabet = listOf(
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',  'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+class GameViewModel(new_word: String? = null, difficulty: Difficulty? = Difficulty.EASY) : ViewModel() {
+    val easy_words = arrayOf(
+        "gato", "sol", "luna", "arbol", "casa", "mesa", "flor", "perro", "boca", "libro",
+        "agua", "raton", "nieve", "leche", "viento", "plaza", "zapato", "piedra", "fruta", "piedra",
+        "rojo", "azul", "silla", "tren", "pelota", "bajo", "cielo", "papa", "pollo", "vaca"
     )
+
+    val medium_words = arrayOf(
+        "ventana", "playa", "escuela", "cafe", "raton", "silla", "nube", "lluvia", "coche", "piedra",
+        "manzana", "luz", "dinero", "alfombra", "espejo", "cuchara", "cerca", "camisa", "piedra", "rojo",
+        "mariposa", "calle", "almohada", "peluche", "baile", "mueble", "solucion", "pintura", "naranja", "hoja"
+    )
+
+    val hard_words = arrayOf(
+        "guitarra", "bicicleta", "computadora", "mariposa", "helicoptero", "helado", "banana", "murcielago", "futbol", "telescopio",
+        "electromagnetismo", "microscopio", "bipolaridad", "inmortalidad", "multinacional", "evolucion", "acelerador", "transistor", "cibernetico", "abominacion",
+        "universo", "espectro", "circulante", "pseudonimo", "conveniencia", "oxigeno", "dinamico", "simulador", "compuerta", "arquelogia"
+    )
+
+
+    private val _alphabet = MutableLiveData<List<Char>>(('A'..'Z').toList())
+    val alphabet : LiveData<List<Char>> = _alphabet
+
+    private val difficulty = difficulty
 
     private val _word = MutableLiveData<String>()
     val word : LiveData<String> = _word
@@ -48,7 +68,14 @@ class GameViewModel(new_word: String? = null) : ViewModel() {
         return new_word.toCharArray().joinToString(" ")
     }
 
-    fun getRandomWord(): String = words.random().lowercase() ?: "android"
+    fun getRandomWord(): String {
+        return when (difficulty) {
+            Difficulty.EASY -> easy_words.random()
+            Difficulty.MEDIUM -> medium_words.random()
+            Difficulty.HARD -> hard_words.random()
+            null -> easy_words.random()
+        }
+    }
 
     fun showLetter(letter: Char) {
         var correct = false

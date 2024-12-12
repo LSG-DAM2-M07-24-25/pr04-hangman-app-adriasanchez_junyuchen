@@ -2,7 +2,6 @@ package com.adriajunyu.hangman.ui.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -52,13 +51,13 @@ fun GameScreen(navigateToBack: () -> Unit, navigateToFinal: (Boolean, Int) -> Un
         }
 
         LazyVerticalGrid(
-            columns = GridCells.Fixed(7),
+            columns = GridCells.Adaptive(50.dp),
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(viewModel.alphabet) { letter ->
-                LetterButton(letter = letter, enabled = true) {
+            items(viewModel.alphabet.value!!) { letter ->
+                LetterButton(letter = letter.toString(), enabled = true) {
                     viewModel.showLetter(letter)
                 }
             }
@@ -68,8 +67,8 @@ fun GameScreen(navigateToBack: () -> Unit, navigateToFinal: (Boolean, Int) -> Un
 }
 
 @Composable
-fun LetterButton(letter: Char, enabled: Boolean, onClick: () -> Unit) {
-    Button(onClick = onClick, enabled = enabled) {
-        Text(text = letter.toString())
+fun LetterButton(letter: String, enabled: Boolean, onClick: () -> Unit) {
+    Button(onClick = onClick, enabled = enabled, modifier = Modifier.fillMaxWidth()) {
+        Text(text = letter)
     }
 }
