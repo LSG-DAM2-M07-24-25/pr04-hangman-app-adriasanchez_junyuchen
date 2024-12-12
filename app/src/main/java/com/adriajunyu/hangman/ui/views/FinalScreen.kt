@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import com.adriajunyu.hangman.R
+import com.adriajunyu.hangman.ui.viewmodels.GameViewModel
 
 @Composable
 fun FinalScreen(win: Boolean, attempts: Int, navigateToGame: (String) -> Unit, navigateToMenu: () -> Unit) {
@@ -32,7 +33,7 @@ fun FinalScreen(win: Boolean, attempts: Int, navigateToGame: (String) -> Unit, n
             Spacer(modifier = Modifier.weight(1f))
             // Al llamar a la funcion navigateToGame, se navega a la pantalla de juego,
             // con la palabra "bye" como parametro
-            Button(onClick = { navigateToGame("bye") }) {
+            Button(onClick = { navigateToGame(GameViewModel().getRandomWord()) }) {
                 Text(text = stringResource(id = R.string.restart))
             }
             Spacer(modifier = Modifier.weight(1f))
